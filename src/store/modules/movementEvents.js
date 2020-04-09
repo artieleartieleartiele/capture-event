@@ -1,20 +1,29 @@
 import axios from "axios";
 
 const state = {
-  commonValuesList: [],
+  commonValuesChoices: [],
+  commonValues: [],
 };
 const getters = {
-  commonValuesList: (state) => state.commonValuesList,
+  commonValuesChoices: (state) => state.commonValuesChoices,
+  commonValues: (state) => state.commonValues,
 };
 const actions = {
   async fetchCommonValuesList({ commit }) {
     const res = await axios.get(`dummyData.json`);
-    commit("FETCH_COMMONVALUESLIST", res.data);
+    commit("FETCH_COMMONVALUESCHOICES", res.data);
+  },
+  applyCommonValues({ commit }, values) {
+    commit("UPDATE_COMMONVALUES", values);
   },
 };
 const mutations = {
-  FETCH_COMMONVALUESLIST: (state, commonValuesList) =>
-    (state.commonValuesList = commonValuesList),
+  FETCH_COMMONVALUESCHOICES: (state, commonValuesChoices) => {
+    state.commonValuesChoices = commonValuesChoices;
+  },
+  UPDATE_COMMONVALUES: (state, values) => {
+    state.commonValues = values;
+  },
   // ADD_TODO: (state, todo) => state.todos.unshift(todo),
   // DELETE_TODO: (state, id) =>
   //   (state.todos = state.todos.filter((todo) => todo.id !== id)),

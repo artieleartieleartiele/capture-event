@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-form
+    <div
       v-for="{
         eqpList,
         ladenEmptyList,
@@ -10,7 +10,7 @@
         eventTypeList,
         sealTypeList,
         facilityList,
-      } in commonValuesList"
+      } in commonValuesChoices"
       :key="facilityList.length"
     >
       <v-row>
@@ -154,18 +154,10 @@
           outlined
           color="blue-grey darken-1"
           @click="reset"
-          >Clear Common Values</v-btn
-        >
-        <v-btn
-          class="ma-2"
-          tile
-          outlined
-          color="blue-grey darken-1"
-          @click="reset"
-          >Apply Common Values</v-btn
-        >
+          >Clear Common Values
+        </v-btn>
       </v-row>
-    </v-form>
+    </div>
   </div>
 </template>
 <script>
@@ -175,12 +167,13 @@ export default {
   name: "CaptureMovementEventHeaderItem",
   created() {
     this.fetchCommonValuesList();
+    this.applyCommonValues(this.commonValues);
   },
   computed: {
-    ...mapGetters(["commonValuesList", "labelsList"]),
+    ...mapGetters(["commonValuesChoices", "labelsList"]),
   },
   methods: {
-    ...mapActions(["fetchCommonValuesList"]),
+    ...mapActions(["fetchCommonValuesList", "applyCommonValues"]),
     allowedDates: (val) => parseInt(val.split("-")[2], 10) % 2 === 0,
     reset(e) {
       e.preventDefault();

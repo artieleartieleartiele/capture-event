@@ -1,5 +1,5 @@
 {
-  "commonValuesList": {
+  "commonValuesChoices": {
     "eqpList": ["RF", "GP", "GS", "CH"],
     "ladenEmptyList": ["L", "E"],
     "conditionList": ["Good", "MNR", "Damage"],
