@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-navigation-drawer v-model="drawer" app>
       <template>
         <v-list-item></v-list-item>
@@ -42,7 +42,7 @@ import CaptureMovementEvent from "./components/CaptureMovementEvent";
 export default {
   name: "App",
   components: {
-    CaptureMovementEvent
+    CaptureMovementEvent,
   },
   data: () => ({
     drawer: true,
@@ -51,9 +51,9 @@ export default {
       ["mdi-home", "Capture Movement Event"],
       ["mdi-home", "Capture Creation/Termination Event"],
       ["mdi-home", "Event Enquiry"],
-      ["mdi-home", "Booking Enquiry"]
-    ]
-  })
+      ["mdi-home", "Booking Enquiry"],
+    ],
+  }),
 };
 </script>
 <style>

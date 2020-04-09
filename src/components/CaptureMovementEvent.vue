@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2">
+  <v-container>
     <v-row>
       <v-col>
         <CaptureMovementEventHeader />
@@ -10,7 +10,7 @@
         <CaptureMovementEventDetail />
       </v-col>
     </v-row>
-  </div>
+  </v-container>
 </template>
 <script>
 import CaptureMovementEventHeader from "./CaptureMovementEventHeader";

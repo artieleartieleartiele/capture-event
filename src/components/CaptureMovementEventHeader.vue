@@ -27,10 +27,10 @@ import CaptureMovementEventHeaderItem from "./CaptureMovementEventHeaderItem";
 export default {
   name: "CaptureMovementEventHeader",
   components: {
-    CaptureMovementEventHeaderItem
+    CaptureMovementEventHeaderItem,
   },
   data() {
     return {};
-  }
+  },
 };
 </script>

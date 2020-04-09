@@ -150,12 +150,19 @@
       <v-row>
         <v-btn
           class="ma-2"
-          :elevation="7"
           tile
           outlined
           color="blue-grey darken-1"
           @click="reset"
           >Clear Common Values</v-btn
+        >
+        <v-btn
+          class="ma-2"
+          tile
+          outlined
+          color="blue-grey darken-1"
+          @click="reset"
+          >Apply Common Values</v-btn
         >
       </v-row>
     </v-form>
