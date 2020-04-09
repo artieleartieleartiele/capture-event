@@ -1,0 +1,31 @@
+{
+  "commonValuesList": {
+    "eqpList": ["RF", "GP", "GS", "CH"],
+    "ladenEmptyList": ["L", "E"],
+    "conditionList": ["Good", "MNR", "Damage"],
+    "vgmMethodList": ["Method1", "Method2"],
+    "authTypeList": ["Authorization1", "Authorization2"],
+    "eventTypeList": ["Creation", "Termination", "Movement"],
+    "sealTypeList": ["Seal1", "Seal2"],
+    "facilityList": [
+      "HKG01 - COSCO - HIT Terminals",
+      "MNL01 - COSCO - Pasay Terminals",
+      "LGB09 - COSCO - Long Beach Terminals",
+      "GUA90 - COSCO - Guam Terminals",
+      "TKY06 - COSCO - Tokyo Terminals",
+      "JPN07 - COSCO - Japan Terminals",
+      "NYC18 - COSCO - New York 18 City Terminals",
+      "NYC19 - COSCO - New York 19 City Terminals",
+      "NYC20 - COSCO - New York 20 City Terminals",
+      "NYC21 - COSCO - New York 21 City Terminals",
+      "DEN13 - COSCO - Denmark 13 Terminals",
+      "DEN14 - COSCO - Denmark 14 Terminals",
+      "DEN15 - COSCO - Denmark 15 Terminals",
+      "DEN16 - COSCO - Denmark 16 Terminals",
+      "DEN17 - COSCO - Denmark 17 Terminals",
+      "DEN18 - COSCO - Denmark 18 Terminals",
+      "DEN19 - COSCO - Denmark 19 Terminals",
+      "DEN20 - COSCO - Denmark 20 Terminals"
+    ]
+  }
+}

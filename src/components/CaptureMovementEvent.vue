@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div class="px-2">
     <v-row>
       <v-col>
         <CaptureMovementEventHeader />
@@ -10,7 +10,7 @@
         <CaptureMovementEventDetail />
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 <script>
 import CaptureMovementEventHeader from "./CaptureMovementEventHeader";
@@ -20,7 +20,7 @@ export default {
   name: "CaptureMovementEvent",
   components: {
     CaptureMovementEventHeader,
-    CaptureMovementEventDetail
-  }
+    CaptureMovementEventDetail,
+  },
 };
 </script>
