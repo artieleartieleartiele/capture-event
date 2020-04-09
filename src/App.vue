@@ -1,14 +1,9 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
-      <v-list-item link>
-        <v-list-item-action>
-          <v-icon></v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title v-on="on"></v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+      <template>
+        <v-list-item></v-list-item>
+      </template>
       <v-list dense v-for="[icon, name] in menuList" :key="name">
         <v-tooltip right>
           <template v-slot:activator="{ on }">

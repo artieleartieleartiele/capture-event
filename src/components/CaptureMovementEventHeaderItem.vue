@@ -139,7 +139,7 @@ export default {
       vgmOfficial: "",
 
       eqpList: ["RF", "GP", "GS", "CH"],
-      ladenEmptyList: ["Laden", "Empty"],
+      ladenEmptyList: ["L", "E"],
       conditionList: ["Good", "MNR", "Damage"],
       vgmMethodList: ["Method1", "Method2"],
       authTypeList: ["Authorization1", "Authorization2"],
@@ -169,7 +169,8 @@ export default {
   },
   methods: {
     allowedDates: val => parseInt(val.split("-")[2], 10) % 2 === 0,
-    reset() {
+    reset(e) {
+      e.preventDefault();
       this.$refs.formCommonValues.reset();
     }
   }
