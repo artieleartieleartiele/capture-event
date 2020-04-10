@@ -3,10 +3,49 @@ import axios from "axios";
 const state = {
   commonValuesChoices: [],
   commonValues: [],
+  events: [
+    {
+      customer: "",
+      eqpType: "",
+      authNo: "",
+      vgmMethod: "",
+      eventDate: "",
+      condition: "",
+      authType: "",
+      eventType: "",
+      vgmDate: "",
+      carrier: "",
+      facility: "",
+      vgmResParty: "",
+      ladenEmpty: "",
+      sealType: "",
+      vgmOfficial: "",
+    },
+  ],
 };
 const getters = {
   commonValuesChoices: (state) => state.commonValuesChoices,
   commonValues: (state) => state.commonValues,
+  inputtedEvents: (state) => {
+    for (const event of state.events) {
+      event.customer = state.commonValues.customer;
+      event.eqpType = state.commonValues.eqpType;
+      event.authNo = state.commonValues.authNo;
+      event.vgmMethod = state.commonValues.vgmMethod;
+      event.eventDate = state.commonValues.eventDate;
+      event.condition = state.commonValues.condition;
+      event.authType = state.commonValues.authType;
+      event.eventType = state.commonValues.eventType;
+      event.vgmDate = state.commonValues.vgmDate;
+      event.carrier = state.commonValues.carrier;
+      event.facility = state.commonValues.facility;
+      event.vgmResParty = state.commonValues.vgmResParty;
+      event.ladenEmpty = state.commonValues.ladenEmpty;
+      event.sealType = state.commonValues.sealType;
+      event.vgmOfficial = state.commonValues.vgmOfficial;
+    }
+    return state.events;
+  },
 };
 const actions = {
   async fetchCommonValuesList({ commit }) {

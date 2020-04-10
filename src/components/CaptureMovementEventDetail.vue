@@ -2,6 +2,9 @@
   <div>
     <v-row>
       <v-col>
+        <v-btn class="mr-2" small tile outlined color="info">
+          Add Row
+        </v-btn>
         <v-btn class="mr-2" small tile outlined color="success">
           Edit Rows
         </v-btn>

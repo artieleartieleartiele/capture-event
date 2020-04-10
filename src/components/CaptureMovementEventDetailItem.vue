@@ -21,45 +21,27 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="({
-            e_customer = commonValues.customer,
-            e_eqpType = commonValues.eqpType,
-            e_authNo = commonValues.authNo,
-            e_vgmMethod = commonValues.vgmMethod,
-            e_eventDate = commonValues.eventDate,
-            e_condition = commonValues.condition,
-            e_authType = commonValues.authType,
-            e_eventType = commonValues.eventType,
-            e_vgmDate = commonValues.vgmDate,
-            e_carrier = commonValues.carrier,
-            e_facility = commonValues.facility,
-            e_vgmResParty = commonValues.vgmResParty,
-            e_ladenEmpty = commonValues.ladenEmpty,
-            e_sealType = commonValues.sealType,
-            e_vgmOfficial = commonValues.vgmOfficial,
-          },
-          i) in events"
-          :key="i"
-        >
-          <td><input type="text" :value="e_customer" /></td>
-          <td><input type="text" :value="e_eqpType" /></td>
-          <td><input type="text" :value="e_authNo" /></td>
-          <td><input type="text" :value="e_vgmMethod" /></td>
-          <td><input type="text" :value="e_eventDate" /></td>
-          <td><input type="text" :value="e_condition" /></td>
-          <td><input type="text" :value="e_authType" /></td>
-          <td><input type="text" :value="e_eventType" /></td>
-          <td><input type="text" :value="e_vgmDate" /></td>
-          <td><input type="text" :value="e_carrier" /></td>
-          <td><input type="text" :value="e_facility" /></td>
-          <td><input type="text" :value="e_vgmResParty" /></td>
-          <td><input type="text" :value="e_ladenEmpty" /></td>
-          <td><input type="text" :value="e_sealType" /></td>
-          <td><input type="text" :value="e_vgmOfficial" /></td>
+        <tr v-for="(event, i) in inputtedEvents" :key="i">
+          <td><input type="text" v-model="event.customer" /></td>
+          <td><input type="text" v-model="event.eqpType" /></td>
+          <td><input type="text" v-model="event.authNo" /></td>
+          <td><input type="text" v-model="event.vgmMethod" /></td>
+          <td><input type="text" v-model="event.eventDate" /></td>
+          <td><input type="text" v-model="event.condition" /></td>
+          <td><input type="text" v-model="event.authType" /></td>
+          <td><input type="text" v-model="event.eventType" /></td>
+          <td><input type="text" v-model="event.vgmDate" /></td>
+          <td><input type="text" v-model="event.carrier" /></td>
+          <td><input type="text" v-model="event.facility" /></td>
+          <td><input type="text" v-model="event.vgmResParty" /></td>
+          <td><input type="text" v-model="event.ladenEmpty" /></td>
+          <td><input type="text" v-model="event.sealType" /></td>
+          <td><input type="text" v-model="event.vgmOfficial" /></td>
         </tr>
       </tbody>
     </table>
+
+    <button @click="logger">Submit</button>
   </div>
 </template>
 
@@ -69,30 +51,15 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "CaptureMovementEventDetailItem",
   computed: {
-    ...mapGetters(["commonValuesChoices", "commonValues"]),
+    ...mapGetters(["commonValuesChoices", "commonValues", "inputtedEvents"]),
   },
   data() {
-    return {
-      events: [
-        {
-          customer: "",
-          eqpType: "",
-          authNo: "",
-          vgmMethod: "",
-          eventDate: "",
-          condition: "",
-          authType: "",
-          eventType: "",
-          vgmDate: "",
-          carrier: "",
-          facility: "",
-          vgmResParty: "",
-          ladenEmpty: "",
-          sealType: "",
-          vgmOfficial: "",
-        },
-      ],
-    };
+    return {};
+  },
+  methods: {
+    logger() {
+      console.log(this.inputtedEvents);
+    },
   },
 };
 </script>
