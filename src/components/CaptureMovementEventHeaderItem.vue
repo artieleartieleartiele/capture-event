@@ -150,6 +150,7 @@
       <v-row>
         <v-btn
           class="ma-2"
+          small="true"
           tile
           outlined
           color="blue-grey darken-1"

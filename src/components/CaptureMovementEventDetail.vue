@@ -2,9 +2,15 @@
   <div>
     <v-row>
       <v-col>
-        <v-btn class="mr-2" tile outlined color="success">Edit Rows</v-btn>
-        <v-btn class="mr-2" tile outlined color="warning">Remove Rows</v-btn>
-        <v-btn class="mr-2" tile outlined color="error">Reset Rows</v-btn>
+        <v-btn class="mr-2" small tile outlined color="success">
+          Edit Rows
+        </v-btn>
+        <v-btn class="mr-2" small tile outlined color="warning">
+          Remove Rows
+        </v-btn>
+        <v-btn class="mr-2" small tile outlined color="error">
+          Reset Rows
+        </v-btn>
       </v-col>
     </v-row>
     <v-row>
