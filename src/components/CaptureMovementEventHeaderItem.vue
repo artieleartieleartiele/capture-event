@@ -19,24 +19,28 @@
             v-model="commonValues.customer"
             maxlength="20"
             label="Customer"
+            @change="applyCommonValues(commonValues)"
           ></v-text-field>
           <v-select
             v-model="commonValues.eqpType"
             :items="eqpList"
             :menu-props="{ maxHeight: '400' }"
             label="Equipment Type"
+            @change="applyCommonValues(commonValues)"
             persistent-hint
           ></v-select>
           <v-text-field
             v-model="commonValues.authNo"
             maxlength="20"
             label="Authorization Number"
+            @change="applyCommonValues(commonValues)"
           ></v-text-field>
           <v-select
             v-model="commonValues.vgmMethod"
             :items="vgmMethodList"
             :menu-props="{ maxHeight: '400' }"
             label="VGM Method"
+            @change="applyCommonValues(commonValues)"
             persistent-hint
           ></v-select>
         </v-col>
@@ -53,6 +57,7 @@
               <v-text-field
                 v-model="commonValues.eventDate"
                 label="Event Date"
+                @change="applyCommonValues(commonValues)"
                 readonly
                 v-on="on"
               ></v-text-field>
@@ -68,6 +73,7 @@
             :items="conditionList"
             :menu-props="{ maxHeight: '400' }"
             label="Equipment Condition"
+            @change="applyCommonValues(commonValues)"
             persistent-hint
           ></v-select>
           <v-select
@@ -75,6 +81,7 @@
             :items="authTypeList"
             :menu-props="{ maxHeight: '400' }"
             label="Authorization Type"
+            @change="applyCommonValues(commonValues)"
             persistent-hint
           ></v-select>
           <v-select
@@ -82,6 +89,7 @@
             :items="eventTypeList"
             :menu-props="{ maxHeight: '400' }"
             label="Event Type"
+            @change="applyCommonValues(commonValues)"
             persistent-hint
           ></v-select>
         </v-col>
@@ -98,6 +106,7 @@
               <v-text-field
                 v-model="commonValues.vgmDate"
                 label="VGM Date"
+                @change="applyCommonValues(commonValues)"
                 readonly
                 v-on="on"
               ></v-text-field>
@@ -111,17 +120,20 @@
             v-model="commonValues.carrier"
             maxlength="20"
             label="Carrier"
+            @change="applyCommonValues(commonValues)"
           ></v-text-field>
           <v-text-field
             v-model="commonValues.vgmResParty"
             maxlength="20"
             label="VGM Responsible Party"
+            @change="applyCommonValues(commonValues)"
           ></v-text-field>
           <v-select
             v-model="commonValues.facility"
             :items="facilityList"
             :menu-props="{ maxHeight: '400' }"
             label="Facility"
+            @change="applyCommonValues(commonValues)"
             persistent-hint
           ></v-select>
         </v-col>
@@ -131,6 +143,7 @@
             :items="ladenEmptyList"
             :menu-props="{ maxHeight: '400' }"
             label="Equipment Type"
+            @change="applyCommonValues(commonValues)"
             persistent-hint
           ></v-select>
           <v-select
@@ -138,19 +151,21 @@
             :items="sealTypeList"
             :menu-props="{ maxHeight: '400' }"
             label="Seal Type"
+            @change="applyCommonValues(commonValues)"
             persistent-hint
           ></v-select>
           <v-text-field
             v-model="commonValues.vgmOfficial"
             maxlength="20"
             label="VGM Authorized Official"
+            @change="applyCommonValues(commonValues)"
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-btn
           class="ma-2"
-          small="true"
+          small
           tile
           outlined
           color="blue-grey darken-1"
@@ -168,7 +183,6 @@ export default {
   name: "CaptureMovementEventHeaderItem",
   created() {
     this.fetchCommonValuesList();
-    this.applyCommonValues(this.commonValues);
   },
   computed: {
     ...mapGetters(["commonValuesChoices", "labelsList"]),
@@ -180,6 +194,7 @@ export default {
       e.preventDefault();
       for (let o in this.commonValues) this.commonValues[o] = "";
     },
+    // onInputChange: () => this.applyCommonValues(this.commonValues),
   },
   data() {
     return {
