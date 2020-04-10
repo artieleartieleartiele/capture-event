@@ -55,6 +55,9 @@ const actions = {
   applyCommonValues({ commit }, values) {
     commit("UPDATE_COMMONVALUES", values);
   },
+  addRows({ commit }, value) {
+    commit("ADD_ROWS", value);
+  },
 };
 const mutations = {
   FETCH_COMMONVALUESCHOICES: (state, commonValuesChoices) => {
@@ -62,6 +65,32 @@ const mutations = {
   },
   UPDATE_COMMONVALUES: (state, values) => {
     state.commonValues = values;
+  },
+  ADD_ROWS: (state, value) => {
+    if (value < 1) return;
+    const o = {
+      customer: "",
+      eqpType: "",
+      authNo: "",
+      vgmMethod: "",
+      eventDate: "",
+      condition: "",
+      authType: "",
+      eventType: "",
+      vgmDate: "",
+      carrier: "",
+      facility: "",
+      vgmResParty: "",
+      ladenEmpty: "",
+      sealType: "",
+      vgmOfficial: "",
+    };
+
+    while (value !== 0) {
+      state.events.push(o);
+      value--;
+    }
+    return state.events;
   },
   // ADD_TODO: (state, todo) => state.todos.unshift(todo),
   // DELETE_TODO: (state, id) =>

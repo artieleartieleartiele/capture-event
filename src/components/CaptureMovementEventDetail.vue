@@ -2,7 +2,14 @@
   <div>
     <v-row>
       <v-col>
-        <v-btn class="mr-2" small tile outlined color="info">
+        <v-btn
+          @click="addRows(5)"
+          class="mr-2"
+          small
+          tile
+          outlined
+          color="info"
+        >
           Add Row
         </v-btn>
         <v-btn class="mr-2" small tile outlined color="success">
@@ -25,12 +32,16 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 import CaptureMovementEventDetailItem from "./CaptureMovementEventDetailItem";
 
 export default {
   name: "CaptureMovementEventDetail",
   components: {
     CaptureMovementEventDetailItem,
+  },
+  methods: {
+    ...mapActions(["addRows"]),
   },
   data() {
     return {};
