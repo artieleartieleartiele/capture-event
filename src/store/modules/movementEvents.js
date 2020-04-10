@@ -58,6 +58,12 @@ const actions = {
   addRows({ commit }, value) {
     commit("ADD_ROWS", value);
   },
+  resetRows({ dispatch }) {
+    let temp = state.events;
+    let idx = temp.length;
+    state.events.length = 0;
+    dispatch("addRows", idx);
+  },
 };
 const mutations = {
   FETCH_COMMONVALUESCHOICES: (state, commonValuesChoices) => {
@@ -68,26 +74,24 @@ const mutations = {
   },
   ADD_ROWS: (state, value) => {
     if (value < 1) return;
-    const o = {
-      customer: "",
-      eqpType: "",
-      authNo: "",
-      vgmMethod: "",
-      eventDate: "",
-      condition: "",
-      authType: "",
-      eventType: "",
-      vgmDate: "",
-      carrier: "",
-      facility: "",
-      vgmResParty: "",
-      ladenEmpty: "",
-      sealType: "",
-      vgmOfficial: "",
-    };
-
     while (value !== 0) {
-      state.events.push(o);
+      state.events.push({
+        customer: "",
+        eqpType: "",
+        authNo: "",
+        vgmMethod: "",
+        eventDate: "",
+        condition: "",
+        authType: "",
+        eventType: "",
+        vgmDate: "",
+        carrier: "",
+        facility: "",
+        vgmResParty: "",
+        ladenEmpty: "",
+        sealType: "",
+        vgmOfficial: "",
+      });
       value--;
     }
     return state.events;

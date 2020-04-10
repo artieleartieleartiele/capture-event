@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-btn
-          @click="addRows(5)"
+          @click="addRows(2)"
           class="mr-2"
           small
           tile
@@ -18,7 +18,14 @@
         <v-btn class="mr-2" small tile outlined color="warning">
           Remove Rows
         </v-btn>
-        <v-btn class="mr-2" small tile outlined color="error">
+        <v-btn
+          @click="resetRows"
+          class="mr-2"
+          small
+          tile
+          outlined
+          color="error"
+        >
           Reset Rows
         </v-btn>
       </v-col>
@@ -41,7 +48,7 @@ export default {
     CaptureMovementEventDetailItem,
   },
   methods: {
-    ...mapActions(["addRows"]),
+    ...mapActions(["addRows", "resetRows"]),
   },
   data() {
     return {};
