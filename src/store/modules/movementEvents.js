@@ -9,7 +9,12 @@ const getters = {
   commonValuesChoices: (state) => state.commonValuesChoices,
   commonValues: (state) => state.commonValues,
   inputtedEvents: (state) => {
-    for (const event of state.events) {
+    for (event of state.events) {
+      event.dumbKey =
+        new Date().getFullYear() +
+        new Date().getMilliseconds() +
+        new Date().getTime() +
+        state.events.indexOf(event);
       event.customer = event.customer
         ? event.customer
         : state.commonValues.customer;
@@ -66,34 +71,10 @@ const actions = {
     commit("UPDATE_COMMONVALUES", values);
   },
   addRows({ commit }, value) {
-    commit("ADD_ROWS", value);
-  },
-  resetRows({ dispatch }) {
-    let temp = state.events;
-    let idx = temp.length;
-    state.events.length = 0;
-    dispatch("addRows", idx);
-  },
-  removeRows({ commit }, value) {
-    if (value.length < 1) return;
-    let indices = state.events
-      .map((e, i) => i)
-      .filter((i) => !value.includes(i));
-    let leftEvents = state.events.filter((e, i) => indices.includes(i));
-    commit("REMOVE_ROWS", leftEvents);
-  },
-};
-const mutations = {
-  FETCH_COMMONVALUESCHOICES: (state, commonValuesChoices) => {
-    state.commonValuesChoices = commonValuesChoices;
-  },
-  UPDATE_COMMONVALUES: (state, values) => {
-    state.commonValues = values;
-  },
-  ADD_ROWS: (state, value) => {
     if (value < 1) return;
     while (value !== 0) {
       state.events.unshift({
+        dumbKey: "",
         customer: "",
         eqpType: "",
         authNo: "",
@@ -112,7 +93,44 @@ const mutations = {
       });
       value--;
     }
-    return state.events;
+    commit("ADD_ROWS", state.events);
+  },
+  resetRows({ dispatch }) {
+    let temp = state.events;
+    let idx = temp.length;
+    state.events.length = 0;
+    dispatch("addRows", idx);
+  },
+  removeRows({ commit }, checked) {
+    if (checked.length < 1) return;
+
+    let poolDumbKeys = [];
+    let checkedDumbKeys = [];
+
+    Object.values(state.events).map((v) => poolDumbKeys.push(v.dumbKey));
+    Object.values(checked).map((v) => checkedDumbKeys.push(v.dumbKey));
+
+    const results = poolDumbKeys.filter(
+      (key1) => !checkedDumbKeys.some((key2) => key1 === key2)
+    );
+
+    let events = state.events.filter((event) =>
+      results.includes(event.dumbKey)
+    );
+
+    console.log(events);
+    commit("REMOVE_ROWS", events);
+  },
+};
+const mutations = {
+  FETCH_COMMONVALUESCHOICES: (state, commonValuesChoices) => {
+    state.commonValuesChoices = commonValuesChoices;
+  },
+  UPDATE_COMMONVALUES: (state, values) => {
+    state.commonValues = values;
+  },
+  ADD_ROWS: (state, value) => {
+    state.events = value;
   },
   REMOVE_ROWS: (state, value) => {
     state.events = value;

@@ -22,49 +22,24 @@
       </v-btn>
     </div>
     <br />
-    <table>
-      <thead>
-        <tr>
-          <th>Action</th>
-          <th>Customer</th>
-          <th>Equipment Type</th>
-          <th>Authorization Number</th>
-          <th>VGM Method</th>
-          <th>Event Date</th>
-          <th>Equipment Condition</th>
-          <th>Authorization Type</th>
-          <th>Event Type</th>
-          <th>VGM Date</th>
-          <th>Carrier</th>
-          <th>VGM Responsible Party</th>
-          <th>Facility</th>
-          <th>Equipment Type</th>
-          <th>Seal Type</th>
-          <th>VGM Authorized Official</th>
-        </tr>
-      </thead>
-      <tbody v-show="inputtedEvents.length !== 0">
-        <tr v-for="(event, i) in inputtedEvents" :key="i">
-          <td><v-checkbox :value="i" v-model="selected" /></td>
-          <td><input type="text" v-model="event.customer" /></td>
-          <td><input type="text" v-model="event.eqpType" /></td>
-          <td><input type="text" v-model="event.authNo" /></td>
-          <td><input type="text" v-model="event.vgmMethod" /></td>
-          <td><input type="text" v-model="event.eventDate" /></td>
-          <td><input type="text" v-model="event.condition" /></td>
-          <td><input type="text" v-model="event.authType" /></td>
-          <td><input type="text" v-model="event.eventType" /></td>
-          <td><input type="text" v-model="event.vgmDate" /></td>
-          <td><input type="text" v-model="event.carrier" /></td>
-          <td><input type="text" v-model="event.facility" /></td>
-          <td><input type="text" v-model="event.vgmResParty" /></td>
-          <td><input type="text" v-model="event.ladenEmpty" /></td>
-          <td><input type="text" v-model="event.sealType" /></td>
-          <td><input type="text" v-model="event.vgmOfficial" /></td>
-        </tr>
-      </tbody>
-    </table>
-
+    <span>{{ selected }}</span>
+    <v-data-table
+      v-model="selected"
+      :headers="headers"
+      :items="inputtedEvents"
+      :single-select="singleSelect"
+      show-select
+      item-key="dumbKey"
+      class="elevation-1"
+    >
+      <template v-slot:top>
+        <v-switch
+          v-model="singleSelect"
+          label="Single select"
+          class="pa-3"
+        ></v-switch>
+      </template>
+    </v-data-table>
     <v-btn @click="logger" small tile color="primary" class="mt-5"
       >Submit</v-btn
     >
@@ -81,9 +56,7 @@ export default {
   },
   methods: {
     ...mapActions(["addRows", "resetRows", "removeRows"]),
-    logger() {
-      console.log(this.selected);
-    },
+    logger() {},
     clickRemove() {
       this.removeRows(this.selected);
       this.selected = [];
@@ -91,7 +64,25 @@ export default {
   },
   data() {
     return {
+      singleSelect: false,
       selected: [],
+      headers: [
+        { text: "Customer", value: "customer" },
+        { text: "Equipment Type", value: "eqpType" },
+        { text: "Authorization Number", value: "authNo" },
+        { text: "VGM Method", value: "vgmMethod" },
+        { text: "Event Date", value: "eventDate" },
+        { text: "Equipment Condition", value: "condition" },
+        { text: "Authorization Type", value: "authType" },
+        { text: "Event Type", value: "eventType" },
+        { text: "VGM Date", value: "vgmDate" },
+        { text: "Carrier", value: "carrier" },
+        { text: "VGM Responsible Party", value: "facility" },
+        { text: "Facility", value: "vgmResParty" },
+        { text: "Equipment Type", value: "ladenEmpty" },
+        { text: "Seal Type", value: "sealType" },
+        { text: "VGM Authorized Official", value: "vgmOfficial" },
+      ],
     };
   },
 };
