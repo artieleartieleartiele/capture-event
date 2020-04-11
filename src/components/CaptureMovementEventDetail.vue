@@ -1,40 +1,6 @@
 <template>
   <div>
-    <v-row>
-      <v-col>
-        <v-btn
-          @click="addRows(2)"
-          class="mr-2"
-          small
-          tile
-          outlined
-          color="info"
-        >
-          Add Row
-        </v-btn>
-        <v-btn class="mr-2" small tile outlined color="success">
-          Edit Rows
-        </v-btn>
-        <v-btn class="mr-2" small tile outlined color="warning">
-          Remove Rows
-        </v-btn>
-        <v-btn
-          @click="resetRows"
-          class="mr-2"
-          small
-          tile
-          outlined
-          color="error"
-        >
-          Reset Rows
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <CaptureMovementEventDetailItem />
-      </v-col>
-    </v-row>
+    <CaptureMovementEventDetailItem />
   </div>
 </template>
 

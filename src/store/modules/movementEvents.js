@@ -3,46 +3,56 @@ import axios from "axios";
 const state = {
   commonValuesChoices: [],
   commonValues: [],
-  events: [
-    {
-      customer: "",
-      eqpType: "",
-      authNo: "",
-      vgmMethod: "",
-      eventDate: "",
-      condition: "",
-      authType: "",
-      eventType: "",
-      vgmDate: "",
-      carrier: "",
-      facility: "",
-      vgmResParty: "",
-      ladenEmpty: "",
-      sealType: "",
-      vgmOfficial: "",
-    },
-  ],
+  events: [],
 };
 const getters = {
   commonValuesChoices: (state) => state.commonValuesChoices,
   commonValues: (state) => state.commonValues,
   inputtedEvents: (state) => {
     for (const event of state.events) {
-      event.customer = state.commonValues.customer;
-      event.eqpType = state.commonValues.eqpType;
-      event.authNo = state.commonValues.authNo;
-      event.vgmMethod = state.commonValues.vgmMethod;
-      event.eventDate = state.commonValues.eventDate;
-      event.condition = state.commonValues.condition;
-      event.authType = state.commonValues.authType;
-      event.eventType = state.commonValues.eventType;
-      event.vgmDate = state.commonValues.vgmDate;
-      event.carrier = state.commonValues.carrier;
-      event.facility = state.commonValues.facility;
-      event.vgmResParty = state.commonValues.vgmResParty;
-      event.ladenEmpty = state.commonValues.ladenEmpty;
-      event.sealType = state.commonValues.sealType;
-      event.vgmOfficial = state.commonValues.vgmOfficial;
+      event.customer = event.customer
+        ? event.customer
+        : state.commonValues.customer;
+      event.eqpType = event.eqpType
+        ? event.eqpType
+        : state.commonValues.eqpType;
+      event.authNo = event.authNo ? event.authNo : state.commonValues.authNo;
+      event.vgmMethod = event.vgmMethod
+        ? event.vgmMethod
+        : state.commonValues.vgmMethod;
+      event.eventDate = event.eventDate
+        ? event.eventDate
+        : state.commonValues.eventDate;
+      event.condition = event.condition
+        ? event.condition
+        : state.commonValues.condition;
+      event.authType = event.authType
+        ? event.authType
+        : state.commonValues.authType;
+      event.eventType = event.eventType
+        ? event.eventType
+        : state.commonValues.eventType;
+      event.vgmDate = event.vgmDate
+        ? event.vgmDate
+        : state.commonValues.vgmDate;
+      event.carrier = event.carrier
+        ? event.carrier
+        : state.commonValues.carrier;
+      event.facility = event.facility
+        ? event.facility
+        : state.commonValues.facility;
+      event.vgmResParty = event.vgmResParty
+        ? event.vgmResParty
+        : state.commonValues.vgmResParty;
+      event.ladenEmpty = event.ladenEmpty
+        ? event.ladenEmpty
+        : state.commonValues.ladenEmpty;
+      event.sealType = event.sealType
+        ? event.sealType
+        : state.commonValues.sealType;
+      event.vgmOfficial = event.vgmOfficial
+        ? event.vgmOfficial
+        : state.commonValues.vgmOfficial;
     }
     return state.events;
   },
@@ -64,6 +74,14 @@ const actions = {
     state.events.length = 0;
     dispatch("addRows", idx);
   },
+  removeRows({ commit }, value) {
+    if (value.length < 1) return;
+    let indices = state.events
+      .map((e, i) => i)
+      .filter((i) => !value.includes(i));
+    let leftEvents = state.events.filter((e, i) => indices.includes(i));
+    commit("REMOVE_ROWS", leftEvents);
+  },
 };
 const mutations = {
   FETCH_COMMONVALUESCHOICES: (state, commonValuesChoices) => {
@@ -75,7 +93,7 @@ const mutations = {
   ADD_ROWS: (state, value) => {
     if (value < 1) return;
     while (value !== 0) {
-      state.events.push({
+      state.events.unshift({
         customer: "",
         eqpType: "",
         authNo: "",
@@ -96,6 +114,10 @@ const mutations = {
     }
     return state.events;
   },
+  REMOVE_ROWS: (state, value) => {
+    state.events = value;
+  },
+
   // ADD_TODO: (state, todo) => state.todos.unshift(todo),
   // DELETE_TODO: (state, id) =>
   //   (state.todos = state.todos.filter((todo) => todo.id !== id)),
