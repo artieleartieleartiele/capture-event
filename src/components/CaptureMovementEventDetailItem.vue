@@ -4,26 +4,20 @@
       <v-btn @click="addRows(2)" class="mr-2" small tile outlined color="info">
         Add Rows
       </v-btn>
-      <v-btn class="mr-2" small tile outlined color="success">
+      <v-btn @click="clickEditRows" class="mr-2" small tile outlined color="success">
         Edit Rows
       </v-btn>
-      <v-btn @click="resetRows" class="mr-2" small tile outlined color="error">
-        Reset Rows
-      </v-btn>
-      <v-btn
-        @click="clickRemove"
-        class="mr-2"
-        small
-        tile
-        outlined
-        color="warning"
-      >
+      <v-btn @click="clickRemove" class="mr-2" small tile outlined color="warning">
         Remove Rows
+      </v-btn>
+      <v-btn @click="clickResetRows" class="mr-2" small tile outlined color="error">
+        Reset Rows
       </v-btn>
     </div>
     <br />
     <span>{{ selected }}</span>
     <v-data-table
+      id="inputtedEvents"
       v-model="selected"
       :headers="headers"
       :items="inputtedEvents"
@@ -33,38 +27,77 @@
       class="elevation-1"
     >
       <template v-slot:top>
-        <v-switch
-          v-model="singleSelect"
-          label="Single select"
-          class="pa-3"
-        ></v-switch>
+        <v-switch v-model="singleSelect" label="Single select" class="pa-3"></v-switch>
       </template>
     </v-data-table>
-    <v-btn @click="logger" small tile color="primary" class="mt-5"
-      >Submit</v-btn
-    >
+    <v-btn @click="logger" small tile color="primary" class="mt-5">Submit</v-btn>
+
+    <v-row justify="center">
+      <v-dialog v-model="dialog" persistent max-width="1161px">
+        <v-card>
+          <v-card-text>
+            <v-container><CaptureMovementEventCommonValuesModal /></v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="clickEditCancel">Cancel</v-btn>
+            <v-btn color="blue darken-1" text @click="clickEditSave">Save</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import CaptureMovementEventCommonValuesModal from "./CaptureMovementEventCommonValuesModal";
 
 export default {
   name: "CaptureMovementEventDetailItem",
+  components: {
+    CaptureMovementEventCommonValuesModal,
+  },
   computed: {
     ...mapGetters(["commonValuesChoices", "commonValues", "inputtedEvents"]),
   },
   methods: {
-    ...mapActions(["addRows", "resetRows", "removeRows"]),
+    ...mapActions([
+      "addRows",
+      "resetRows",
+      "removeRows",
+      "editRows",
+      "applyCommonValues",
+      "resetCommonValuesModal",
+    ]),
+    clickEditCancel() {
+      this.dialog = false;
+      this.resetCommonValuesModal();
+    },
+    clickEditSave() {
+      this.editRows(this.selected);
+      this.selected = [];
+      this.dialog = false;
+      this.resetCommonValuesModal();
+    },
     logger() {},
+    clickResetRows() {
+      this.resetRows();
+    },
     clickRemove() {
+      if (this.selected.length === 0) return;
       this.removeRows(this.selected);
       this.selected = [];
+    },
+    clickEditRows() {
+      if (this.selected.length === 0) return;
+      this.dialog = true;
     },
   },
   data() {
     return {
       singleSelect: false,
+      dialog: false,
       selected: [],
       headers: [
         { text: "Customer", value: "customer" },
@@ -87,33 +120,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-table {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: inherit;
-}
-
-table td,
-table th {
-  border: 1px solid #ddd;
-}
-
-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-table tr:hover {
-  background-color: #ddd;
-}
-
-table th {
-  padding: 5px;
-  text-align: left;
-  background-color: #546e7a;
-  color: white;
-}
-table body {
-  border: 1px solid #546e7a;
-}
-</style>
