@@ -1,60 +1,63 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-navigation-drawer v-model="drawer" app>
+      <template>
+        <v-list-item></v-list-item>
+      </template>
+      <v-list dense v-for="[icon, name] in menuList" :key="name">
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-list-item link>
+              <v-list-item-action>
+                <v-icon>{{ icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title v-on="on">{{ name }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+          <span>{{ name }}</span>
+        </v-tooltip>
+      </v-list>
+    </v-navigation-drawer>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+    <v-app-bar app color="rgb(4,96,237)" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-app-bar>
 
     <v-content>
-      <HelloWorld/>
+      <CaptureMovementEvent />
     </v-content>
+
+    <v-footer color="rgb(4,96,237)" app class="justify-center">
+      <span class="white--text">OneOperation &copy; 2020</span>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import CaptureMovementEvent from "./components/CaptureMovementEvent";
 
 export default {
-  name: 'App',
-
+  name: "App",
   components: {
-    HelloWorld,
+    CaptureMovementEvent,
   },
-
   data: () => ({
-    //
+    drawer: true,
+    title: "Smart Vendor Platform",
+    menuList: [
+      ["mdi-home", "Capture Movement Event"],
+      ["mdi-home", "Capture Creation/Termination Event"],
+      ["mdi-home", "Event Enquiry"],
+      ["mdi-home", "Booking Enquiry"],
+    ],
   }),
 };
 </script>
+<style>
+* {
+  font-size: 12px;
+}
+</style>
