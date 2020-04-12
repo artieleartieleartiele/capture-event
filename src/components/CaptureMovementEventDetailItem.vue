@@ -1,18 +1,10 @@
 <template>
   <div>
     <div>
-      <v-btn @click="addRows(2)" class="mr-2" small tile outlined color="info">
-        Add Rows
-      </v-btn>
-      <v-btn @click="clickEditRows" class="mr-2" small tile outlined color="success">
-        Edit Rows
-      </v-btn>
-      <v-btn @click="clickRemove" class="mr-2" small tile outlined color="warning">
-        Remove Rows
-      </v-btn>
-      <v-btn @click="clickResetRows" class="mr-2" small tile outlined color="error">
-        Reset Rows
-      </v-btn>
+      <v-btn @click="addRows(2)" class="mr-2" small tile outlined color="info">Add Rows</v-btn>
+      <v-btn @click="clickEditRows" class="mr-2" small tile outlined color="success">Edit Rows</v-btn>
+      <v-btn @click="clickRemove" class="mr-2" small tile outlined color="warning">Remove Rows</v-btn>
+      <v-btn @click="clickResetRows" class="mr-2" small tile outlined color="error">Reset Rows</v-btn>
     </div>
     <br />
     <span>{{ selected }}</span>
@@ -36,7 +28,9 @@
       <v-dialog v-model="dialog" persistent max-width="1161px">
         <v-card>
           <v-card-text>
-            <v-container><CaptureMovementEventCommonValuesModal /></v-container>
+            <v-container>
+              <CaptureMovementEventCommonValuesModal />
+            </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -56,10 +50,10 @@ import CaptureMovementEventCommonValuesModal from "./CaptureMovementEventCommonV
 export default {
   name: "CaptureMovementEventDetailItem",
   components: {
-    CaptureMovementEventCommonValuesModal,
+    CaptureMovementEventCommonValuesModal
   },
   computed: {
-    ...mapGetters(["commonValuesChoices", "commonValues", "inputtedEvents"]),
+    ...mapGetters(["commonValuesChoices", "commonValues", "inputtedEvents"])
   },
   methods: {
     ...mapActions([
@@ -68,7 +62,7 @@ export default {
       "removeRows",
       "editRows",
       "applyCommonValues",
-      "resetCommonValuesModal",
+      "resetCommonValuesModal"
     ]),
     clickEditCancel() {
       this.dialog = false;
@@ -82,7 +76,9 @@ export default {
     },
     logger() {},
     clickResetRows() {
-      this.resetRows();
+      if (this.selected.length === 0) return;
+      this.resetRows(this.selected);
+      this.selected = [];
     },
     clickRemove() {
       if (this.selected.length === 0) return;
@@ -92,7 +88,7 @@ export default {
     clickEditRows() {
       if (this.selected.length === 0) return;
       this.dialog = true;
-    },
+    }
   },
   data() {
     return {
@@ -114,9 +110,9 @@ export default {
         { text: "Facility", value: "vgmResParty" },
         { text: "Equipment Type", value: "ladenEmpty" },
         { text: "Seal Type", value: "sealType" },
-        { text: "VGM Authorized Official", value: "vgmOfficial" },
-      ],
+        { text: "VGM Authorized Official", value: "vgmOfficial" }
+      ]
     };
-  },
+  }
 };
 </script>

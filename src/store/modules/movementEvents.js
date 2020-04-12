@@ -4,13 +4,13 @@ const state = {
   commonValuesChoices: [],
   commonValues: [],
   commonValuesModal: [],
-  events: [],
+  events: []
 };
 const getters = {
-  commonValuesChoices: (state) => state.commonValuesChoices,
-  commonValues: (state) => state.commonValues,
-  commonValuesModal: (state) => state.commonValuesModal,
-  inputtedEvents: (state) => {
+  commonValuesChoices: state => state.commonValuesChoices,
+  commonValues: state => state.commonValues,
+  commonValuesModal: state => state.commonValuesModal,
+  inputtedEvents: state => {
     for (event of state.events) {
       event.dumbKey =
         new Date().getFullYear() +
@@ -34,7 +34,7 @@ const getters = {
       event.vgmOfficial = event.vgmOfficial ? event.vgmOfficial : state.commonValues.vgmOfficial;
     }
     return state.events;
-  },
+  }
 };
 const actions = {
   async fetchCommonValuesList({ commit }) {
@@ -70,17 +70,11 @@ const actions = {
         vgmResParty: "",
         ladenEmpty: "",
         sealType: "",
-        vgmOfficial: "",
+        vgmOfficial: ""
       });
       value--;
     }
     commit("ADD_ROWS", state.events);
-  },
-  resetRows({ dispatch }) {
-    let temp = state.events;
-    let idx = temp.length;
-    state.events.length = 0;
-    dispatch("addRows", idx);
   },
   removeRows({ commit }, checked) {
     if (checked.length < 1) return;
@@ -88,15 +82,23 @@ const actions = {
     let poolDumbKeys = [];
     let checkedDumbKeys = [];
 
-    Object.values(state.events).map((v) => poolDumbKeys.push(v.dumbKey));
-    Object.values(checked).map((v) => checkedDumbKeys.push(v.dumbKey));
-    const results = poolDumbKeys.filter((key1) => !checkedDumbKeys.some((key2) => key1 === key2));
-    let events = state.events.filter((event) => results.includes(event.dumbKey));
+    Object.values(state.events).map(v => poolDumbKeys.push(v.dumbKey));
+    Object.values(checked).map(v => checkedDumbKeys.push(v.dumbKey));
+    const results = poolDumbKeys.filter(key1 => !checkedDumbKeys.some(key2 => key1 === key2));
+    let events = state.events.filter(event => results.includes(event.dumbKey));
 
     commit("REMOVE_ROWS", events);
   },
-  editRows({ commit }, checked) {
+  resetRows({ dispatch }, checked) {
     if (checked.length < 1) return;
+    dispatch("editAdaptor", { checked, cvalues: state.commonValues });
+  },
+  editRows({ dispatch }, checked) {
+    if (checked.length < 1) return;
+    dispatch("editAdaptor", { checked, cvalues: state.commonValuesModal });
+  },
+  editAdaptor({ commit }, payload) {
+    const { checked, cvalues } = payload;
     let poolDumbKeys = [];
     let checkedDumbKeys = [];
     const {
@@ -114,11 +116,11 @@ const actions = {
       vgmResParty,
       ladenEmpty,
       sealType,
-      vgmOfficial,
-    } = state.commonValuesModal;
+      vgmOfficial
+    } = cvalues;
 
-    Object.values(state.events).map((v) => poolDumbKeys.push(v.dumbKey));
-    Object.values(checked).map((v) => checkedDumbKeys.push(v.dumbKey));
+    Object.values(state.events).map(v => poolDumbKeys.push(v.dumbKey));
+    Object.values(checked).map(v => checkedDumbKeys.push(v.dumbKey));
     state.events.map((event, index) => {
       if (checkedDumbKeys.includes(event.dumbKey)) {
         event.dumbKey = event.dumbKey;
@@ -139,7 +141,7 @@ const actions = {
       }
     });
     commit("EDIT_ROWS", state.events);
-  },
+  }
 };
 const mutations = {
   FETCH_COMMONVALUESCHOICES: (state, commonValuesChoices) => {
@@ -159,7 +161,7 @@ const mutations = {
   },
   EDIT_ROWS: (state, value) => {
     state.events = value;
-  },
+  }
 
   // ADD_TODO: (state, todo) => state.todos.unshift(todo),
   // DELETE_TODO: (state, id) =>
@@ -173,5 +175,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };
