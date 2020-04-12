@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://artiele.github.io/capture-event",
+  "homepage": "https://artiele-oocl.github.io/capture-event",
   "dependencies": {
     "axios": "^0.19.2",
     "gh-pages": "^2.2.0",
