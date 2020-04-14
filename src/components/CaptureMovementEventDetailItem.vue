@@ -2,7 +2,7 @@
   <div>
     <div>
       <v-btn
-        @click="addRows(2)"
+        @click="clickAddRows"
         :disabled="(commonValues.length < 1)"
         class="mr-2"
         small
@@ -100,12 +100,17 @@ export default {
   methods: {
     ...mapActions([
       "addRows",
+      "resetCommonValues",
       "resetRows",
       "removeRows",
       "editRows",
       "applyCommonValues",
       "resetCommonValuesModal"
     ]),
+    clickAddRows() {
+      this.addRows(2);
+      // this.resetCommonValues();
+    },
     clickEditCancel() {
       this.dialog = false;
       this.resetCommonValuesModal();

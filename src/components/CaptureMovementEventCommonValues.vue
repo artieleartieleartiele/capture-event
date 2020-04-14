@@ -62,10 +62,7 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker
-              v-model="commonValues.eventDate"
-              @input="menu2Event = false"
-            ></v-date-picker>
+            <v-date-picker v-model="commonValues.eventDate" @input="menu2Event = false"></v-date-picker>
           </v-menu>
           <v-select
             v-model="commonValues.condition"
@@ -110,10 +107,7 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker
-              v-model="commonValues.vgmDate"
-              @input="menu2Vgm = false"
-            ></v-date-picker>
+            <v-date-picker v-model="commonValues.vgmDate" @input="menu2Vgm = false"></v-date-picker>
           </v-menu>
           <v-text-field
             v-model="commonValues.carrier"
@@ -169,8 +163,7 @@
           outlined
           color="blue-grey darken-1"
           @click="reset"
-          >Clear Common Values
-        </v-btn>
+        >Clear Common Values</v-btn>
       </v-row>
     </div>
   </div>
@@ -184,14 +177,19 @@ export default {
     this.fetchCommonValuesList();
   },
   computed: {
-    ...mapGetters(["commonValuesChoices"]),
+    ...mapGetters(["commonValuesChoices"])
   },
   methods: {
-    ...mapActions(["fetchCommonValuesList", "applyCommonValues"]),
+    ...mapActions([
+      "fetchCommonValuesList",
+      "applyCommonValues",
+      "resetCommonValues"
+    ]),
     reset(e) {
       e.preventDefault();
-      for (let o in this.commonValues) this.commonValues[o] = "";
-    },
+      this.resetCommonValues();
+      // for (let o in this.commonValues) this.commonValues[o] = "";
+    }
   },
   data() {
     return {
@@ -212,9 +210,9 @@ export default {
         vgmResParty: "",
         ladenEmpty: "",
         sealType: "",
-        vgmOfficial: "",
-      },
+        vgmOfficial: ""
+      }
     };
-  },
+  }
 };
 </script>

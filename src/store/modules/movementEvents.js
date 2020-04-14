@@ -44,14 +44,21 @@ const actions = {
   applyCommonValues({ commit }, values) {
     commit("UPDATE_COMMONVALUES", values);
   },
+  resetCommonValues({ commit }) {
+    for (let o in state.commonValues) state.commonValues[o] = "";
+    state.commonValues = [];
+    commit("UPDATE_COMMONVALUES", state.commonValues);
+  },
   applyCommonValuesModal({ commit }, values) {
     commit("UPDATE_COMMONVALUESMODAL", values);
   },
   resetCommonValuesModal({ commit }) {
     for (let o in state.commonValuesModal) state.commonValuesModal[o] = "";
+    state.commonValuesModal = [];
     commit("UPDATE_COMMONVALUESMODAL", state.commonValuesModal);
   },
   addRows({ commit }, value) {
+    console.log(value);
     if (value < 1) return;
     while (value !== 0) {
       state.events.unshift({
