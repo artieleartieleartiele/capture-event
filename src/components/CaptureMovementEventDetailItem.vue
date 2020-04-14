@@ -1,10 +1,49 @@
 <template>
   <div>
     <div>
-      <v-btn @click="addRows(2)" class="mr-2" small tile outlined color="info">Add Rows</v-btn>
-      <v-btn @click="clickEditRows" class="mr-2" small tile outlined color="success">Edit Rows</v-btn>
-      <v-btn @click="clickRemove" class="mr-2" small tile outlined color="warning">Remove Rows</v-btn>
-      <v-btn @click="clickResetRows" class="mr-2" small tile outlined color="error">Reset Rows</v-btn>
+      <v-btn
+        @click="addRows(2)"
+        :disabled="(commonValues.length < 1)"
+        class="mr-2"
+        small
+        tile
+        outlined
+        color="info"
+      >Add Rows</v-btn>
+      <v-btn
+        @click="clickEditRows"
+        :disabled="isDisabled"
+        class="mr-2"
+        small
+        tile
+        outlined
+        color="success"
+      >Edit Rows</v-btn>
+      <v-btn
+        @click="clickRemove"
+        :disabled="isDisabled"
+        class="mr-2"
+        small
+        tile
+        outlined
+        color="warning"
+      >Remove Rows</v-btn>
+      <v-btn
+        @click="clickResetRows"
+        :disabled="isDisabled"
+        class="mr-2"
+        small
+        tile
+        outlined
+        color="error"
+      >Reset Rows</v-btn>
+      <v-text-field
+        label="Paste events here..."
+        id="contentPasted"
+        @paste="clickContentPaste"
+        type="text"
+        v-model="contentPaste"
+      ></v-text-field>
     </div>
     <br />
     <span>{{ selected }}</span>
@@ -53,7 +92,10 @@ export default {
     CaptureMovementEventCommonValuesModal
   },
   computed: {
-    ...mapGetters(["commonValuesChoices", "commonValues", "inputtedEvents"])
+    ...mapGetters(["commonValuesChoices", "commonValues", "inputtedEvents"]),
+    isDisabled() {
+      return this.selected.length === 0;
+    }
   },
   methods: {
     ...mapActions([
@@ -88,6 +130,35 @@ export default {
     clickEditRows() {
       if (this.selected.length === 0) return;
       this.dialog = true;
+    },
+    clickContentPaste(e) {
+      let cb = e.clipboardData;
+      let clipText = cb.getData("text/plain");
+      let rows = clipText.split("\n");
+      rows.forEach(row => {
+        if (row) {
+          let cell = row.split("\t");
+          let event = {
+            customer: cell[0],
+            eqpType: cell[1],
+            authNo: cell[2],
+            vgmMethod: cell[3],
+            eventDate: cell[4],
+            condition: cell[5],
+            authType: cell[6],
+            eventType: cell[7],
+            vgmDate: cell[8],
+            carrier: cell[9],
+            facility: cell[10],
+            vgmResParty: cell[11],
+            ladenEmpty: cell[12],
+            sealType: cell[13],
+            vgmOfficial: cell[14]
+          };
+          this.inputtedEvents.unshift(event);
+        }
+      });
+      // cb.clearData("Text");
     }
   },
   data() {
@@ -95,6 +166,7 @@ export default {
       singleSelect: false,
       dialog: false,
       selected: [],
+      contentPaste: [],
       headers: [
         { text: "Customer", value: "customer" },
         { text: "Equipment Type", value: "eqpType" },
