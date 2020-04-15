@@ -8,35 +8,16 @@
         small
         tile
         outlined
-        color="info"
-      >Add Rows</v-btn>
+        color="teal lighten-1"
+      >Add Common Values</v-btn>
       <v-btn
-        @click="clickEditRows"
-        :disabled="isDisabled"
+        @click="logger"
+        :disabled="(events.length < 1)"
         class="mr-2"
         small
         tile
-        outlined
-        color="success"
-      >Edit Rows</v-btn>
-      <v-btn
-        @click="clickRemove"
-        :disabled="isDisabled"
-        class="mr-2"
-        small
-        tile
-        outlined
-        color="warning"
-      >Remove Rows</v-btn>
-      <v-btn
-        @click="clickResetRows"
-        :disabled="isDisabled"
-        class="mr-2"
-        small
-        tile
-        outlined
-        color="error"
-      >Reset Rows</v-btn>
+        color="primary"
+      >Submit Events</v-btn>
       <v-text-field
         label="Paste events here..."
         id="contentPasted"
@@ -46,22 +27,243 @@
       ></v-text-field>
     </div>
     <br />
-    <span>{{ selected }}</span>
-    <v-data-table
-      id="inputtedEvents"
-      v-model="selected"
-      :headers="headers"
-      :items="inputtedEvents"
-      :single-select="singleSelect"
-      show-select
-      item-key="dumbKey"
-      class="elevation-1"
-    >
-      <template v-slot:top>
-        <v-switch v-model="singleSelect" label="Single select" class="pa-3"></v-switch>
+
+    <v-data-table :headers="headers" :items="inputtedEvents">
+      <template v-slot:item.customer="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.customer"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.customer }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.customer" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.eqpType="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.eqpType"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.eqpType }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.eqpType" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.authNo="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.authNo"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.authNo }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.authNo" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.vgmMethod="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.vgmMethod"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.vgmMethod }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.vgmMethod" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+
+      <template v-slot:item.eventDate="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.eventDate"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.eventDate }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.eventDate" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.condition="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.condition"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.condition }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.condition" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.authType="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.authType"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.authType }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.authType" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.eventType="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.eventType"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.eventType }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.eventType" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.vgmDate="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.vgmDate"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.vgmDate }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.vgmDate" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.carrier="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.carrier"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.carrier }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.carrier" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.facility="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.facility"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.facility }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.facility" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.vgmResParty="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.vgmResParty"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.vgmResParty }}
+          <template v-slot:input>
+            <v-text-field
+              v-model="props.item.vgmResParty"
+              label="Edit"
+              single-line
+              counter
+              autofocus
+            ></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.ladenEmpty="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.ladenEmpty"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.ladenEmpty }}
+          <template v-slot:input>
+            <v-text-field
+              v-model="props.item.ladenEmpty"
+              label="Edit"
+              single-line
+              counter
+              autofocus
+            ></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.sealType="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.sealType"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.sealType }}
+          <template v-slot:input>
+            <v-text-field v-model="props.item.sealType" label="Edit" single-line counter autofocus></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+      <template v-slot:item.vgmOfficial="props">
+        <v-edit-dialog
+          :return-value.sync="props.item.vgmOfficial"
+          @save="save"
+          @cancel="cancel"
+          @open="open"
+          @close="close"
+        >
+          {{ props.item.vgmOfficial }}
+          <template v-slot:input>
+            <v-text-field
+              v-model="props.item.vgmOfficial"
+              label="Edit"
+              single-line
+              counter
+              autofocus
+            ></v-text-field>
+          </template>
+        </v-edit-dialog>
       </template>
     </v-data-table>
-    <v-btn @click="logger" small tile color="primary" class="mt-5">Submit</v-btn>
+
+    <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
+      {{ snackText }}
+      <v-btn text @click="snack = false">Close</v-btn>
+    </v-snackbar>
 
     <v-row justify="center">
       <v-dialog v-model="dialog" persistent max-width="1161px">
@@ -92,7 +294,12 @@ export default {
     CaptureMovementEventCommonValuesModal
   },
   computed: {
-    ...mapGetters(["commonValuesChoices", "commonValues", "inputtedEvents"]),
+    ...mapGetters([
+      "commonValuesChoices",
+      "commonValues",
+      "inputtedEvents",
+      "events"
+    ]),
     isDisabled() {
       return this.selected.length === 0;
     }
@@ -121,7 +328,9 @@ export default {
       this.dialog = false;
       this.resetCommonValuesModal();
     },
-    logger() {},
+    logger() {
+      console.log(this.inputtedEvents);
+    },
     clickResetRows() {
       if (this.selected.length === 0) return;
       this.resetRows(this.selected);
@@ -160,14 +369,35 @@ export default {
             sealType: cell[13],
             vgmOfficial: cell[14]
           };
-          this.inputtedEvents.unshift(event);
+          this.events.unshift(event);
         }
       });
       // cb.clearData("Text");
+    },
+    save() {
+      this.snack = true;
+      this.snackColor = "success";
+      this.snackText = "Data saved";
+    },
+    cancel() {
+      this.snack = true;
+      this.snackColor = "error";
+      this.snackText = "Canceled";
+    },
+    open() {
+      this.snack = true;
+      this.snackColor = "info";
+      this.snackText = "Dialog opened";
+    },
+    close() {
+      console.log("Dialog closed");
     }
   },
   data() {
     return {
+      snack: false,
+      snackColor: "",
+      snackText: "",
       singleSelect: false,
       dialog: false,
       selected: [],

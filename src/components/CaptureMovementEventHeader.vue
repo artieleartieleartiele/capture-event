@@ -7,7 +7,7 @@
     :tile="true"
     :value="0"
   >
-    <v-expansion-panel style="border: 1px solid #546E7A;">
+    <v-expansion-panel style="border: 1px solid #CFD8DC;">
       <v-expansion-panel-header :ripple="true" class="blue-grey darken-1 ma-0">
         <span class="white--text subtitle-1">Capture Movement Event</span>
         <template v-slot:actions>
@@ -27,10 +27,10 @@ import CaptureMovementEventHeaderItem from "./CaptureMovementEventHeaderItem";
 export default {
   name: "CaptureMovementEventHeader",
   components: {
-    CaptureMovementEventHeaderItem,
+    CaptureMovementEventHeaderItem
   },
   data() {
     return {};
-  },
+  }
 };
 </script>

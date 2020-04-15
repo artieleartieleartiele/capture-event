@@ -35,6 +35,7 @@ const getters = {
     }
     return state.events;
   },
+  events: (state) => state.events,
 };
 const actions = {
   async fetchCommonValuesList({ commit }) {
