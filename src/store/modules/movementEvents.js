@@ -59,7 +59,6 @@ const actions = {
     commit("UPDATE_COMMONVALUESMODAL", state.commonValuesModal);
   },
   addRows({ commit }, value) {
-    console.log(value);
     if (value < 1) return;
     while (value !== 0) {
       state.events.unshift({
@@ -95,6 +94,10 @@ const actions = {
     const results = poolDumbKeys.filter((key1) => !checkedDumbKeys.some((key2) => key1 === key2));
     let events = state.events.filter((event) => results.includes(event.dumbKey));
 
+    commit("REMOVE_ROWS", events);
+  },
+  removeItem({ commit }, id) {
+    let events = state.events.filter((event) => event.dumbKey !== id);
     commit("REMOVE_ROWS", events);
   },
   resetRows({ dispatch }, checked) {
