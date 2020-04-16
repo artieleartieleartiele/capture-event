@@ -3,21 +3,23 @@
     <div>
       <v-btn
         @click="clickAddRows"
-        :disabled="(commonValues.length < 1)"
+        :disabled="commonValues.length < 1"
         class="mr-2"
         small
         tile
         outlined
         color="teal lighten-1"
-      >Add Common Values</v-btn>
+        >Add Common Values</v-btn
+      >
       <v-btn
         @click="clickSubmit"
-        :disabled="(events.length < 1)"
+        :disabled="events.length < 1"
         class="mr-2"
         small
         tile
         color="primary"
-      >Submit Events</v-btn>
+        >Submit Events</v-btn
+      >
       <v-text-field
         label="Paste events here..."
         id="contentPasted"
@@ -28,153 +30,62 @@
     </div>
     <br />
 
-    <v-data-table :headers="headers" :items="inputtedEvents">
-      <!-- <template v-slot:item.dumbKey="props">{{props.item.dumbKey}}</template> -->
-
-      <template v-slot:item.action="{ item }">
-        <!-- <v-icon small @click="deleteItem(item)">mdi-delete</v-icon> -->
-        <v-icon small @click="clickDeleteItem(item.dumbKey)" color="error">mdi-delete</v-icon>
+    <v-simple-table>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">Action</th>
+            <th class="text-left">Customer</th>
+            <th class="text-left">Equipment Type</th>
+            <th class="text-left">Authorization Number</th>
+            <th class="text-left">VGM Method</th>
+            <th class="text-left">Event Date</th>
+            <th class="text-left">Equipment Condition</th>
+            <th class="text-left">Authorization Type</th>
+            <th class="text-left">Event Type</th>
+            <th class="text-left">VGM Date</th>
+            <th class="text-left">Carrier</th>
+            <th class="text-left">VGM Responsible Party</th>
+            <th class="text-left">Facility</th>
+            <th class="text-left">Equipment Type</th>
+            <th class="text-left">Seal Type</th>
+            <th class="text-left">VGM Authorized Official</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="event of events" :key="event.dumbKey">
+            <td>
+              <v-icon @click="clickDeleteItem(event.dumbKey)" color="error">mdi-delete</v-icon>
+            </td>
+            <td>
+              <div v-if="editingId == event.dumbKey">
+                <v-text-field
+                  v-model="event.customer"
+                  :id="`edit-${editingId}`"
+                  @blur="save(editingId)"
+                  @keydown.enter="save(editingId)"
+                ></v-text-field>
+              </div>
+              <div v-else @click="setToEditing(event.dumbKey)">{{ event.customer }}</div>
+            </td>
+            <td>{{ event.eqpType }}</td>
+            <td>{{ event.authNo }}</td>
+            <td>{{ event.vgmMethod }}</td>
+            <td>{{ event.eventDate }}</td>
+            <td>{{ event.condition }}</td>
+            <td>{{ event.authType }}</td>
+            <td>{{ event.eventType }}</td>
+            <td>{{ event.vgmDate }}</td>
+            <td>{{ event.carrier }}</td>
+            <td>{{ event.facility }}</td>
+            <td>{{ event.vgmResParty }}</td>
+            <td>{{ event.ladenEmpty }}</td>
+            <td>{{ event.sealType }}</td>
+            <td>{{ event.vgmOfficial }}</td>
+          </tr>
+        </tbody>
       </template>
-      <template v-slot:item.customer="props">
-        <v-edit-dialog :return-value.sync="props.item.customer" @save="save" @cancel="cancel">
-          {{ props.item.customer }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.customer" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.eqpType="props">
-        <v-edit-dialog :return-value.sync="props.item.eqpType" @save="save" @cancel="cancel">
-          {{ props.item.eqpType }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.eqpType" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.authNo="props">
-        <v-edit-dialog :return-value.sync="props.item.authNo" @save="save" @cancel="cancel">
-          {{ props.item.authNo }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.authNo" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.vgmMethod="props">
-        <v-edit-dialog :return-value.sync="props.item.vgmMethod" @save="save" @cancel="cancel">
-          {{ props.item.vgmMethod }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.vgmMethod" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-
-      <template v-slot:item.eventDate="props">
-        <v-edit-dialog :return-value.sync="props.item.eventDate" @save="save" @cancel="cancel">
-          {{ props.item.eventDate }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.eventDate" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.condition="props">
-        <v-edit-dialog :return-value.sync="props.item.condition" @save="save" @cancel="cancel">
-          {{ props.item.condition }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.condition" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.authType="props">
-        <v-edit-dialog :return-value.sync="props.item.authType" @save="save" @cancel="cancel">
-          {{ props.item.authType }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.authType" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.eventType="props">
-        <v-edit-dialog :return-value.sync="props.item.eventType" @save="save" @cancel="cancel">
-          {{ props.item.eventType }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.eventType" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.vgmDate="props">
-        <v-edit-dialog :return-value.sync="props.item.vgmDate" @save="save" @cancel="cancel">
-          {{ props.item.vgmDate }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.vgmDate" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.carrier="props">
-        <v-edit-dialog :return-value.sync="props.item.carrier" @save="save" @cancel="cancel">
-          {{ props.item.carrier }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.carrier" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.facility="props">
-        <v-edit-dialog :return-value.sync="props.item.facility" @save="save" @cancel="cancel">
-          {{ props.item.facility }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.facility" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.vgmResParty="props">
-        <v-edit-dialog :return-value.sync="props.item.vgmResParty" @save="save" @cancel="cancel">
-          {{ props.item.vgmResParty }}
-          <template v-slot:input>
-            <v-text-field
-              v-model="props.item.vgmResParty"
-              label="Edit"
-              single-line
-              counter
-              autofocus
-            ></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.ladenEmpty="props">
-        <v-edit-dialog :return-value.sync="props.item.ladenEmpty" @save="save" @cancel="cancel">
-          {{ props.item.ladenEmpty }}
-          <template v-slot:input>
-            <v-text-field
-              v-model="props.item.ladenEmpty"
-              label="Edit"
-              single-line
-              counter
-              autofocus
-            ></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.sealType="props">
-        <v-edit-dialog :return-value.sync="props.item.sealType" @save="save" @cancel="cancel">
-          {{ props.item.sealType }}
-          <template v-slot:input>
-            <v-text-field v-model="props.item.sealType" label="Edit" single-line counter autofocus></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template v-slot:item.vgmOfficial="props">
-        <v-edit-dialog :return-value.sync="props.item.vgmOfficial" @save="save" @cancel="cancel">
-          {{ props.item.vgmOfficial }}
-          <template v-slot:input>
-            <v-text-field
-              v-model="props.item.vgmOfficial"
-              label="Edit"
-              single-line
-              counter
-              autofocus
-            ></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-    </v-data-table>
+    </v-simple-table>
 
     <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
       {{ snackText }}
@@ -207,18 +118,13 @@ import CaptureMovementEventCommonValuesModal from "./CaptureMovementEventCommonV
 export default {
   name: "CaptureMovementEventDetailItem",
   components: {
-    CaptureMovementEventCommonValuesModal
+    CaptureMovementEventCommonValuesModal,
   },
   computed: {
-    ...mapGetters([
-      "commonValuesChoices",
-      "commonValues",
-      "inputtedEvents",
-      "events"
-    ]),
+    ...mapGetters(["commonValuesChoices", "commonValues", "events"]),
     isDisabled() {
       return this.selected.length === 0;
-    }
+    },
   },
   methods: {
     ...mapActions([
@@ -229,11 +135,12 @@ export default {
       "editRows",
       "applyCommonValues",
       "resetCommonValuesModal",
-      "removeItem"
+      "removeItem",
+      "removeItems",
     ]),
     clickAddRows() {
       this.addRows(5);
-      // this.resetCommonValues();
+      this.resetCommonValues();
     },
     clickEditCancel() {
       this.dialog = false;
@@ -263,10 +170,12 @@ export default {
       let cb = e.clipboardData;
       let clipText = cb.getData("text/plain");
       let rows = clipText.split("\n");
-      rows.forEach(row => {
+      rows.forEach((row, idx) => {
         if (row) {
           let cell = row.split("\t");
           let event = {
+            dumbKey:
+              new Date().getFullYear() + new Date().getMilliseconds() + new Date().getTime() + idx,
             customer: cell[0],
             eqpType: cell[1],
             authNo: cell[2],
@@ -281,7 +190,7 @@ export default {
             vgmResParty: cell[11],
             ladenEmpty: cell[12],
             sealType: cell[13],
-            vgmOfficial: cell[14]
+            vgmOfficial: cell[14],
           };
           this.events.unshift(event);
         }
@@ -292,11 +201,14 @@ export default {
       this.snack = true;
       this.snackColor = "success";
       this.snackText = "Events submitted";
+      this.removeItems();
     },
-    save() {
+    save(id) {
+      console.log(id);
       this.snack = true;
       this.snackColor = "info";
       this.snackText = "Saved";
+      this.editingId = "";
     },
     cancel() {
       this.snack = true;
@@ -309,15 +221,23 @@ export default {
       this.snackText = "Event deleted";
     },
     clickDeleteItem(id) {
+      console.log(id);
       let confirmed = confirm("Are you sure you want to delete this item?");
       if (confirmed) {
         this.removeItem(id);
         this.delete();
       }
-    }
+    },
+    setToEditing(id) {
+      this.editingId = id;
+      setTimeout(() => {
+        document.getElementById(`edit-${id}`).focus();
+      }, 10);
+    },
   },
   data() {
     return {
+      editingId: "",
       snack: false,
       snackColor: "",
       snackText: "",
@@ -341,9 +261,9 @@ export default {
         { text: "Facility", value: "vgmResParty" },
         { text: "Equipment Type", value: "ladenEmpty" },
         { text: "Seal Type", value: "sealType" },
-        { text: "VGM Authorized Official", value: "vgmOfficial" }
-      ]
+        { text: "VGM Authorized Official", value: "vgmOfficial" },
+      ],
     };
-  }
+  },
 };
 </script>

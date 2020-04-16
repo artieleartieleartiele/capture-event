@@ -10,28 +10,31 @@ const getters = {
   commonValuesChoices: (state) => state.commonValuesChoices,
   commonValues: (state) => state.commonValues,
   commonValuesModal: (state) => state.commonValuesModal,
-  inputtedEvents: (state) => {
+  events: (state) => {
     for (event of state.events) {
       event.dumbKey =
-        new Date().getFullYear() +
+        new Date().getHours() +
+        new Date().getMinutes() +
+        new Date().getSeconds() +
         new Date().getMilliseconds() +
+        new Date().getFullYear() +
         new Date().getTime() +
-        state.events.indexOf(event);
-      event.customer = event.customer ? event.customer : state.commonValues.customer;
-      event.eqpType = event.eqpType ? event.eqpType : state.commonValues.eqpType;
-      event.authNo = event.authNo ? event.authNo : state.commonValues.authNo;
-      event.vgmMethod = event.vgmMethod ? event.vgmMethod : state.commonValues.vgmMethod;
-      event.eventDate = event.eventDate ? event.eventDate : state.commonValues.eventDate;
-      event.condition = event.condition ? event.condition : state.commonValues.condition;
-      event.authType = event.authType ? event.authType : state.commonValues.authType;
-      event.eventType = event.eventType ? event.eventType : state.commonValues.eventType;
-      event.vgmDate = event.vgmDate ? event.vgmDate : state.commonValues.vgmDate;
-      event.carrier = event.carrier ? event.carrier : state.commonValues.carrier;
-      event.facility = event.facility ? event.facility : state.commonValues.facility;
-      event.vgmResParty = event.vgmResParty ? event.vgmResParty : state.commonValues.vgmResParty;
-      event.ladenEmpty = event.ladenEmpty ? event.ladenEmpty : state.commonValues.ladenEmpty;
-      event.sealType = event.sealType ? event.sealType : state.commonValues.sealType;
-      event.vgmOfficial = event.vgmOfficial ? event.vgmOfficial : state.commonValues.vgmOfficial;
+        Math.floor(Math.random() * 10000 + 1);
+      event.customer = event.customer || state.commonValues.customer;
+      event.eqpType = event.eqpType || state.commonValues.eqpType;
+      event.authNo = event.authNo || state.commonValues.authNo;
+      event.vgmMethod = event.vgmMethod || state.commonValues.vgmMethod;
+      event.eventDate = event.eventDate || state.commonValues.eventDate;
+      event.condition = event.condition || state.commonValues.condition;
+      event.authType = event.authType || state.commonValues.authType;
+      event.eventType = event.eventType || state.commonValues.eventType;
+      event.vgmDate = event.vgmDate || state.commonValues.vgmDate;
+      event.carrier = event.carrier || state.commonValues.carrier;
+      event.facility = event.facility || state.commonValues.facility;
+      event.vgmResParty = event.vgmResParty || state.commonValues.vgmResParty;
+      event.ladenEmpty = event.ladenEmpty || state.commonValues.ladenEmpty;
+      event.sealType = event.sealType || state.commonValues.sealType;
+      event.vgmOfficial = event.vgmOfficial || state.commonValues.vgmOfficial;
     }
     return state.events;
   },
@@ -62,22 +65,29 @@ const actions = {
     if (value < 1) return;
     while (value !== 0) {
       state.events.unshift({
-        dumbKey: "",
-        customer: "",
-        eqpType: "",
-        authNo: "",
-        vgmMethod: "",
-        eventDate: "",
-        condition: "",
-        authType: "",
-        eventType: "",
-        vgmDate: "",
-        carrier: "",
-        facility: "",
-        vgmResParty: "",
-        ladenEmpty: "",
-        sealType: "",
-        vgmOfficial: "",
+        dumbKey:
+          new Date().getHours() +
+          new Date().getMinutes() +
+          new Date().getSeconds() +
+          new Date().getMilliseconds() +
+          new Date().getFullYear() +
+          new Date().getTime() +
+          Math.floor(Math.random() * 10000 + 1),
+        customer: state.commonValues.customer || "-",
+        eqpType: state.commonValues.eqpType || "-",
+        authNo: state.commonValues.authNo || "-",
+        vgmMethod: state.commonValues.vgmMethod || "-",
+        eventDate: state.commonValues.eventDate || "-",
+        condition: state.commonValues.condition || "-",
+        authType: state.commonValues.authType || "-",
+        eventType: state.commonValues.eventType || "-",
+        vgmDate: state.commonValues.vgmDate || "-",
+        carrier: state.commonValues.carrier || "-",
+        facility: state.commonValues.facility || "-",
+        vgmResParty: state.commonValues.vgmResParty || "-",
+        ladenEmpty: state.commonValues.ladenEmpty || "-",
+        sealType: state.commonValues.sealType || "-",
+        vgmOfficial: state.commonValues.vgmOfficial || "-",
       });
       value--;
     }
@@ -99,6 +109,11 @@ const actions = {
   removeItem({ commit }, id) {
     let events = state.events.filter((event) => event.dumbKey !== id);
     commit("REMOVE_ROWS", events);
+  },
+  removeItems({ commit }) {
+    for (let o in state.events) state.events[o] = "";
+    state.events = [];
+    commit("REMOVE_ROWS", state.events);
   },
   resetRows({ dispatch }, checked) {
     if (checked.length < 1) return;
@@ -155,6 +170,9 @@ const actions = {
     });
     commit("EDIT_ROWS", state.events);
   },
+  editItem({ commit }, event) {
+    // let updated = state.events.find((e) => e.dumbKey == event.dumbKey);
+  },
 };
 const mutations = {
   FETCH_COMMONVALUESCHOICES: (state, commonValuesChoices) => {
@@ -175,13 +193,6 @@ const mutations = {
   EDIT_ROWS: (state, value) => {
     state.events = value;
   },
-
-  // ADD_TODO: (state, todo) => state.todos.unshift(todo),
-  // DELETE_TODO: (state, id) =>
-  //   (state.todos = state.todos.filter((todo) => todo.id !== id)),
-  // UPDATE_TODO: (state, updTodo) => {
-  //   const idx = state.todos.findIndex((todo) => todo.id === updTodo.id);
-  //   state.todos.splice(idx, 1, updTodo);},
 };
 
 export default {
