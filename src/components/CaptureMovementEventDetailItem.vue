@@ -28,7 +28,7 @@
     </div>
     <br />
 
-    <v-simple-table>
+    <v-simple-table dense fixed-header>
       <template v-slot:default>
         <thead>
           <tr>
@@ -61,7 +61,6 @@
                 <v-text-field
                   v-model="event.customer"
                   :id="`customer-${event.dumbKey}`"
-                  v-on:blur="save($event, `eqpType-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `eqpType-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -69,12 +68,11 @@
               <div v-else>{{ event.customer }}</div>
             </td>
 
-            <td @click="setToEditing(`eqpType-${event.dumbKey}`)" ref="eqptest">
+            <td @click="setToEditing(`eqpType-${event.dumbKey}`)">
               <div v-if="editingId == `eqpType-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.eqpType"
                   :id="`eqpType-${event.dumbKey}`"
-                  v-on:blur="save($event, `authNo-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `authNo-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -87,7 +85,6 @@
                 <v-text-field
                   v-model="event.authNo"
                   :id="`authNo-${event.dumbKey}`"
-                  v-on:blur="save($event, `vgmMethod-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `vgmMethod-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -100,7 +97,6 @@
                 <v-text-field
                   v-model="event.vgmMethod"
                   :id="`vgmMethod-${event.dumbKey}`"
-                  v-on:blur="save($event, `eventDate-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `eventDate-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -113,7 +109,6 @@
                 <v-text-field
                   v-model="event.eventDate"
                   :id="`eventDate-${event.dumbKey}`"
-                  v-on:blur="save($event, `condition-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `condition-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -126,7 +121,6 @@
                 <v-text-field
                   v-model="event.condition"
                   :id="`condition-${event.dumbKey}`"
-                  v-on:blur="save($event, `authType-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `authType-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -139,7 +133,6 @@
                 <v-text-field
                   v-model="event.authType"
                   :id="`authType-${event.dumbKey}`"
-                  v-on:blur="save($event, `eventType-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `eventType-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -152,7 +145,6 @@
                 <v-text-field
                   v-model="event.eventType"
                   :id="`eventType-${event.dumbKey}`"
-                  v-on:blur="save($event, `vgmDate-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `vgmDate-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -165,7 +157,6 @@
                 <v-text-field
                   v-model="event.vgmDate"
                   :id="`vgmDate-${event.dumbKey}`"
-                  v-on:blur="save($event, `carrier-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `carrier-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -178,7 +169,6 @@
                 <v-text-field
                   v-model="event.carrier"
                   :id="`carrier-${event.dumbKey}`"
-                  v-on:blur="save($event, `facility-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `facility-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -191,7 +181,6 @@
                 <v-text-field
                   v-model="event.facility"
                   :id="`facility-${event.dumbKey}`"
-                  v-on:blur="save($event, `vgmResParty-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `vgmResParty-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -204,7 +193,6 @@
                 <v-text-field
                   v-model="event.vgmResParty"
                   :id="`vgmResParty-${event.dumbKey}`"
-                  v-on:blur="save($event, `ladenEmpty-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `ladenEmpty-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -217,7 +205,6 @@
                 <v-text-field
                   v-model="event.ladenEmpty"
                   :id="`ladenEmpty-${event.dumbKey}`"
-                  v-on:blur="save($event, `sealType-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `sealType-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -230,7 +217,6 @@
                 <v-text-field
                   v-model="event.sealType"
                   :id="`sealType-${event.dumbKey}`"
-                  v-on:blur="save($event, `vgmOfficial-${event.dumbKey}`)"
                   v-on:keyup.enter="save($event, `vgmOfficial-${event.dumbKey}`)"
                   :autofocus="true"
                 ></v-text-field>
@@ -243,7 +229,6 @@
                 <v-text-field
                   v-model="event.vgmOfficial"
                   :id="`vgmOfficial-${event.dumbKey}`"
-                  v-on:blur="save($event, '')"
                   v-on:keyup.enter="save($event, '')"
                   :autofocus="true"
                 ></v-text-field>
