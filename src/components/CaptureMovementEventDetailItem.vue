@@ -1,62 +1,86 @@
 <template>
   <div>
     <div>
-      <v-btn
-        @click="clickAddRows"
-        :disabled="commonValues.length < 1"
-        class="mr-2"
-        small
-        tile
-        outlined
-        color="teal lighten-1"
-      >Add Event</v-btn>
-      <v-btn
-        @click="clickClearAll"
-        :disabled="events.length < 1"
-        class="mr-2"
-        small
-        tile
-        outlined
-        color="teal lighten-1"
-      >Clear All</v-btn>
-      <v-btn
-        @click="clickSubmit"
-        :disabled="events.length < 1"
-        class="mr-2"
-        small
-        tile
-        color="primary"
-      >Submit</v-btn>
-      <v-text-field
-        label="Paste events here..."
-        id="contentPasted"
-        @paste="clickContentPaste"
-        type="text"
-        v-model="contentPaste"
-      ></v-text-field>
-    </div>
-    <br />
+      <v-col cols="4" style="display: inline-block !important;">
+        <v-btn
+          @click="clickAddRows"
+          :disabled="commonValues.length < 1"
+          class="mr-2"
+          small
+          tile
+          outlined
+          color="teal lighten-1"
+        >Add Event</v-btn>
+        <v-btn
+          @click="clickClearAll"
+          :disabled="events.length < 1"
+          class="mr-2"
+          small
+          tile
+          outlined
+          color="teal lighten-1"
+        >Clear All</v-btn>
+        <v-btn
+          @click="clickSubmit"
+          :disabled="events.length < 1"
+          class="mr-2"
+          small
+          tile
+          color="primary"
+        >Submit</v-btn>
+      </v-col>
+      <v-col cols="4" style="display: inline-block !important;">
+        <v-select
+          :items="headersSelection"
+          item-text="text"
+          v-model="columnSelected"
+          multiple
+          label="Select columns..."
+          @change="filterColumns"
+        >
+          <template v-slot:selection="{ item, index }">
+            <v-chip v-if="index === 0">
+              <span>{{ item.text }}</span>
+            </v-chip>
+            <span
+              v-if="index === 1"
+              class="grey--text caption"
+            >(+{{ columnSelected.length - 1 }} others)</span>
+          </template>
+        </v-select>
+      </v-col>
 
+      <v-col cols="4" style="display: inline-block !important;">
+        <v-text-field
+          label="Paste events here..."
+          id="contentPasted"
+          @paste="clickContentPaste"
+          type="text"
+          v-model="contentPaste"
+        ></v-text-field>
+      </v-col>
+    </div>
+    <!-- <p>{{columnSelected}}</p> -->
     <v-simple-table dense fixed-header>
       <template v-slot:default>
         <thead>
           <tr>
-            <th class="text-left">Action</th>
-            <th class="text-left">Customer</th>
-            <th class="text-left">Equipment Type</th>
-            <th class="text-left">Authorization Number</th>
-            <th class="text-left">VGM Method</th>
-            <th class="text-left">Event Date</th>
-            <th class="text-left">Equipment Condition</th>
-            <th class="text-left">Authorization Type</th>
-            <th class="text-left">Event Type</th>
-            <th class="text-left">VGM Date</th>
-            <th class="text-left">Carrier</th>
-            <th class="text-left">VGM Responsible Party</th>
-            <th class="text-left">Facility</th>
-            <th class="text-left">Equipment Type</th>
-            <th class="text-left">Seal Type</th>
-            <th class="text-left">VGM Authorized Official</th>
+            <th class="text-left">{{headers[0].text }}</th>
+            <th v-show="headers[1].display" class="text-left">{{headers[1].text }}</th>
+            <th v-show="headers[2].display" class="text-left">{{headers[2].text }}</th>
+            <th v-show="headers[3].display" class="text-left">{{headers[3].text }}</th>
+            <th v-show="headers[4].display" class="text-left">{{headers[4].text }}</th>
+            <th v-show="headers[5].display" class="text-left">{{headers[5].text }}</th>
+            <th v-show="headers[6].display" class="text-left">{{headers[6].text }}</th>
+            <th v-show="headers[7].display" class="text-left">{{headers[7].text }}</th>
+            <th v-show="headers[8].display" class="text-left">{{headers[8].text }}</th>
+            <th v-show="headers[9].display" class="text-left">{{headers[9].text }}</th>
+            <th v-show="headers[10].display" class="text-left">{{headers[10].text }}</th>
+            <th v-show="headers[11].display" class="text-left">{{headers[11].text }}</th>
+            <th v-show="headers[12].display" class="text-left">{{headers[12].text }}</th>
+            <th v-show="headers[13].display" class="text-left">{{headers[13].text }}</th>
+            <th v-show="headers[14].display" class="text-left">{{headers[14].text }}</th>
+            <th v-show="headers[15].display" class="text-left">{{headers[15].text }}</th>
           </tr>
         </thead>
         <tbody>
@@ -65,7 +89,7 @@
               <v-icon @click="clickDeleteItem(event.dumbKey)" color="error">mdi-delete</v-icon>
             </td>
 
-            <td @click="setToEditing(`customer-${event.dumbKey}`)">
+            <td @click="setToEditing(`customer-${event.dumbKey}`)" v-show="headers[1].display">
               <div v-if="editingId == `customer-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.customer"
@@ -77,7 +101,7 @@
               <div v-else>{{ event.customer }}</div>
             </td>
 
-            <td @click="setToEditing(`eqpType-${event.dumbKey}`)">
+            <td @click="setToEditing(`eqpType-${event.dumbKey}`)" v-show="headers[2].display">
               <div v-if="editingId == `eqpType-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.eqpType"
@@ -89,7 +113,7 @@
               <div v-else>{{ event.eqpType }}</div>
             </td>
 
-            <td @click="setToEditing(`authNo-${event.dumbKey}`)">
+            <td @click="setToEditing(`authNo-${event.dumbKey}`)" v-show="headers[3].display">
               <div v-if="editingId == `authNo-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.authNo"
@@ -101,7 +125,7 @@
               <div v-else>{{ event.authNo }}</div>
             </td>
 
-            <td @click="setToEditing(`vgmMethod-${event.dumbKey}`)">
+            <td @click="setToEditing(`vgmMethod-${event.dumbKey}`)" v-show="headers[4].display">
               <div v-if="editingId == `vgmMethod-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.vgmMethod"
@@ -113,7 +137,7 @@
               <div v-else>{{ event.vgmMethod }}</div>
             </td>
 
-            <td @click="setToEditing(`eventDate-${event.dumbKey}`)">
+            <td @click="setToEditing(`eventDate-${event.dumbKey}`)" v-show="headers[5].display">
               <div v-if="editingId == `eventDate-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.eventDate"
@@ -125,7 +149,7 @@
               <div v-else>{{ event.eventDate }}</div>
             </td>
 
-            <td @click="setToEditing(`condition-${event.dumbKey}`)">
+            <td @click="setToEditing(`condition-${event.dumbKey}`)" v-show="headers[6].display">
               <div v-if="editingId == `condition-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.condition"
@@ -137,7 +161,7 @@
               <div v-else>{{ event.condition }}</div>
             </td>
 
-            <td @click="setToEditing(`authType-${event.dumbKey}`)">
+            <td @click="setToEditing(`authType-${event.dumbKey}`)" v-show="headers[7].display">
               <div v-if="editingId == `authType-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.authType"
@@ -149,7 +173,7 @@
               <div v-else>{{ event.authType }}</div>
             </td>
 
-            <td @click="setToEditing(`eventType-${event.dumbKey}`)">
+            <td @click="setToEditing(`eventType-${event.dumbKey}`)" v-show="headers[8].display">
               <div v-if="editingId == `eventType-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.eventType"
@@ -161,7 +185,7 @@
               <div v-else>{{ event.eventType }}</div>
             </td>
 
-            <td @click="setToEditing(`vgmDate-${event.dumbKey}`)">
+            <td @click="setToEditing(`vgmDate-${event.dumbKey}`)" v-show="headers[9].display">
               <div v-if="editingId == `vgmDate-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.vgmDate"
@@ -173,7 +197,7 @@
               <div v-else>{{ event.vgmDate }}</div>
             </td>
 
-            <td @click="setToEditing(`carrier-${event.dumbKey}`)">
+            <td @click="setToEditing(`carrier-${event.dumbKey}`)" v-show="headers[10].display">
               <div v-if="editingId == `carrier-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.carrier"
@@ -185,7 +209,7 @@
               <div v-else>{{ event.carrier }}</div>
             </td>
 
-            <td @click="setToEditing(`facility-${event.dumbKey}`)">
+            <td @click="setToEditing(`facility-${event.dumbKey}`)" v-show="headers[11].display">
               <div v-if="editingId == `facility-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.facility"
@@ -197,7 +221,7 @@
               <div v-else>{{ event.facility }}</div>
             </td>
 
-            <td @click="setToEditing(`vgmResParty-${event.dumbKey}`)">
+            <td @click="setToEditing(`vgmResParty-${event.dumbKey}`)" v-show="headers[12].display">
               <div v-if="editingId == `vgmResParty-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.vgmResParty"
@@ -209,7 +233,7 @@
               <div v-else>{{ event.vgmResParty }}</div>
             </td>
 
-            <td @click="setToEditing(`ladenEmpty-${event.dumbKey}`)">
+            <td @click="setToEditing(`ladenEmpty-${event.dumbKey}`)" v-show="headers[13].display">
               <div v-if="editingId == `ladenEmpty-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.ladenEmpty"
@@ -221,7 +245,7 @@
               <div v-else>{{ event.ladenEmpty }}</div>
             </td>
 
-            <td @click="setToEditing(`sealType-${event.dumbKey}`)">
+            <td @click="setToEditing(`sealType-${event.dumbKey}`)" v-show="headers[14].display">
               <div v-if="editingId == `sealType-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.sealType"
@@ -233,7 +257,7 @@
               <div v-else>{{ event.sealType }}</div>
             </td>
 
-            <td @click="setToEditing(`vgmOfficial-${event.dumbKey}`)">
+            <td @click="setToEditing(`vgmOfficial-${event.dumbKey}`)" v-show="headers[15].display">
               <div v-if="editingId == `vgmOfficial-${event.dumbKey}`">
                 <v-text-field
                   v-model="event.vgmOfficial"
@@ -408,6 +432,17 @@ export default {
       this.$nextTick(() => {
         this.setToEditing(id);
       });
+    },
+    filterColumns() {
+      if (this.columnSelected.length < 1) return;
+      this.headers.map(h => {
+        if (this.columnSelected.includes(h.value)) {
+          h.display = true;
+        } else {
+          h.display = false;
+        }
+      });
+      console.log(this.columnSelected);
     }
   },
   data() {
@@ -421,22 +456,57 @@ export default {
       selected: [],
       contentPaste: [],
       headers: [
-        { text: "Action", value: "action" },
-        { text: "Customer", value: "customer" },
-        { text: "Equipment Type", value: "eqpType" },
-        { text: "Authorization Number", value: "authNo" },
-        { text: "VGM Method", value: "vgmMethod" },
-        { text: "Event Date", value: "eventDate" },
-        { text: "Equipment Condition", value: "condition" },
-        { text: "Authorization Type", value: "authType" },
-        { text: "Event Type", value: "eventType" },
-        { text: "VGM Date", value: "vgmDate" },
-        { text: "Carrier", value: "carrier" },
-        { text: "VGM Responsible Party", value: "facility" },
-        { text: "Facility", value: "vgmResParty" },
-        { text: "Equipment Type", value: "ladenEmpty" },
-        { text: "Seal Type", value: "sealType" },
-        { text: "VGM Authorized Official", value: "vgmOfficial" }
+        { display: true, text: "Action", value: "action" },
+        { display: true, text: "Customer", value: "customer" },
+        { display: true, text: "Equipment Type", value: "eqpType" },
+        { display: true, text: "Authorization Number", value: "authNo" },
+        { display: true, text: "VGM Method", value: "vgmMethod" },
+        { display: true, text: "Event Date", value: "eventDate" },
+        { display: true, text: "Equipment Condition", value: "condition" },
+        { display: true, text: "Authorization Type", value: "authType" },
+        { display: true, text: "Event Type", value: "eventType" },
+        { display: true, text: "VGM Date", value: "vgmDate" },
+        { display: true, text: "Carrier", value: "carrier" },
+        { display: true, text: "VGM Responsible Party", value: "facility" },
+        { display: true, text: "Facility", value: "vgmResParty" },
+        { display: true, text: "Equipment Type", value: "ladenEmpty" },
+        { display: true, text: "Seal Type", value: "sealType" },
+        { display: true, text: "VGM Authorized Official", value: "vgmOfficial" }
+      ],
+      headersSelection: [
+        { display: true, text: "Customer", value: "customer" },
+        { display: true, text: "Equipment Type", value: "eqpType" },
+        { display: true, text: "Authorization Number", value: "authNo" },
+        { display: true, text: "VGM Method", value: "vgmMethod" },
+        { display: true, text: "Event Date", value: "eventDate" },
+        { display: true, text: "Equipment Condition", value: "condition" },
+        { display: true, text: "Authorization Type", value: "authType" },
+        { display: true, text: "Event Type", value: "eventType" },
+        { display: true, text: "VGM Date", value: "vgmDate" },
+        { display: true, text: "Carrier", value: "carrier" },
+        { display: true, text: "VGM Responsible Party", value: "facility" },
+        { display: true, text: "Facility", value: "vgmResParty" },
+        { display: true, text: "Equipment Type", value: "ladenEmpty" },
+        { display: true, text: "Seal Type", value: "sealType" },
+        { display: true, text: "VGM Authorized Official", value: "vgmOfficial" }
+      ],
+      columnSelected: [
+        "action",
+        "customer",
+        "eqpType",
+        "authNo",
+        "vgmMethod",
+        "eventDate",
+        "condition",
+        "authType",
+        "eventType",
+        "vgmDate",
+        "carrier",
+        "facility",
+        "vgmResParty",
+        "ladenEmpty",
+        "sealType",
+        "vgmOfficial"
       ]
     };
   }
