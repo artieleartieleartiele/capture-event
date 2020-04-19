@@ -9,7 +9,16 @@
         tile
         outlined
         color="teal lighten-1"
-      >Add Common Values</v-btn>
+      >Add Event</v-btn>
+      <v-btn
+        @click="clickClearAll"
+        :disabled="events.length < 1"
+        class="mr-2"
+        small
+        tile
+        outlined
+        color="teal lighten-1"
+      >Clear All</v-btn>
       <v-btn
         @click="clickSubmit"
         :disabled="events.length < 1"
@@ -17,7 +26,7 @@
         small
         tile
         color="primary"
-      >Submit Events</v-btn>
+      >Submit</v-btn>
       <v-text-field
         label="Paste events here..."
         id="contentPasted"
@@ -353,6 +362,15 @@ export default {
       });
       // cb.clearData("Text");
     },
+    clickClearAll() {
+      let confirmed = confirm("Are you sure you want to delete this item?");
+      if (confirmed) {
+        this.snack = true;
+        this.snackColor = "success";
+        this.snackText = "Events cleared";
+        this.removeItems();
+      }
+    },
     clickSubmit() {
       this.snack = true;
       this.snackColor = "success";
@@ -377,7 +395,6 @@ export default {
       this.snackText = "Event deleted";
     },
     clickDeleteItem(id) {
-      console.log(id);
       let confirmed = confirm("Are you sure you want to delete this item?");
       if (confirmed) {
         this.removeItem(id);
