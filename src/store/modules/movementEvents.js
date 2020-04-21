@@ -97,13 +97,9 @@ const actions = {
     if (checked.length < 1) return;
 
     let poolDumbKeys = [];
-    let checkedDumbKeys = [];
-
     Object.values(state.events).map((v) => poolDumbKeys.push(v.dumbKey));
-    Object.values(checked).map((v) => checkedDumbKeys.push(v.dumbKey));
-    const results = poolDumbKeys.filter((key1) => !checkedDumbKeys.some((key2) => key1 === key2));
+    const results = poolDumbKeys.filter((key1) => !checked.some((key2) => key1 == key2));
     let events = state.events.filter((event) => results.includes(event.dumbKey));
-
     commit("REMOVE_ROWS", events);
   },
   removeItem({ commit }, id) {

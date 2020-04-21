@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <v-col cols="4" style="display: inline-block !important;">
+      <v-col cols="6" style="display: inline-block !important;">
         <v-btn
           @click="clickAddRows"
           :disabled="commonValues.length < 1"
@@ -11,6 +11,15 @@
           outlined
           color="teal lighten-1"
         >Add Event</v-btn>
+        <v-btn
+          @click="clickRemove"
+          :disabled="selected.length < 1"
+          class="mr-2"
+          small
+          tile
+          outlined
+          color="warning"
+        >Delete Event</v-btn>
         <v-btn
           @click="clickClearAll"
           :disabled="events.length < 1"
@@ -29,7 +38,7 @@
           color="primary"
         >Submit</v-btn>
       </v-col>
-      <v-col cols="4" style="display: inline-block !important;">
+      <v-col cols="3" style="display: inline-block !important;">
         <v-select
           :items="headersSelection"
           item-text="text"
@@ -49,8 +58,7 @@
           </template>
         </v-select>
       </v-col>
-
-      <v-col cols="4" style="display: inline-block !important;">
+      <v-col cols="3" style="display: inline-block !important;">
         <v-text-field
           label="Paste events here..."
           id="contentPasted"
@@ -60,7 +68,6 @@
         ></v-text-field>
       </v-col>
     </div>
-    <!-- <p>{{columnSelected}}</p> -->
     <v-simple-table dense fixed-header>
       <template v-slot:default>
         <thead>
@@ -86,7 +93,7 @@
         <tbody>
           <tr v-for="(event) of events" :key="event.dumbKey">
             <td>
-              <v-icon @click="clickDeleteItem(event.dumbKey)" color="error">mdi-delete</v-icon>
+              <v-checkbox v-model="selected" :value="`${event.dumbKey}`"></v-checkbox>
             </td>
 
             <td @click="setToEditing(`customer-${event.dumbKey}`)" v-show="headers[1].display">
@@ -442,7 +449,6 @@ export default {
           h.display = false;
         }
       });
-      console.log(this.columnSelected);
     }
   },
   data() {
