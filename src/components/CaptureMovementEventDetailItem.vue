@@ -352,8 +352,12 @@ export default {
     },
     clickRemove() {
       if (this.selected.length === 0) return;
-      this.removeRows(this.selected);
-      this.selected = [];
+      let confirmed = confirm("Are you sure you want to delete this item?");
+      if (confirmed) {
+        this.removeRows(this.selected);
+        this.selected = [];
+        this.delete();
+      }
     },
     clickEditRows() {
       if (this.selected.length === 0) return;
