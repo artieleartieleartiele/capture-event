@@ -9,7 +9,7 @@
   },
   "homepage": "https://artiele-oocl.github.io/capture-event",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "gh-pages": "^2.2.0",
     "vue": "^2.6.11",
     "vuetify": "^2.2.11",
